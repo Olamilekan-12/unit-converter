@@ -24,3 +24,27 @@ func TestCelsiusToFahrenheit(t *testing.T) {
 	}
 
 }
+
+func TestFahrenheitToCelsius(t *testing.T) {
+	tests := []struct {
+		name  string
+		input float64
+		want  float64
+	}{
+		{"boiling", 212, 100},
+		{"freezing", 32, 0},
+		{"body-temperature", 98.6, 37},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			got := FahrenheitToCelsius(tt.input)
+			want := tt.want
+			if got != want {
+				t.Errorf("FahrenheitToCelsius(%v)=%v, want=%v", tt.input, got, tt.want)
+			}
+		})
+
+	}
+
+}
