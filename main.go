@@ -1,6 +1,10 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+	"os"
+	"strconv"
+)
 
 const (
 	kgToPounds  = 2.20462
@@ -24,18 +28,32 @@ func KilometersToMiles(km float64) float64 {
 }
 
 func main() {
-	result := CelsiusToFahrenheit(100)
-	result2 := FahrenheitToCelsius(212)
-	result3 := KilometersToMiles(1)
-	result4 := KilometersToMiles(10)
-	result5 := KilogramsToPounds(1)
-	result6 := KilogramsToPounds(10)
-	result7 := KilogramsToPounds(0)
-	fmt.Println(result)
-	fmt.Println(result2)
-	fmt.Println(result3)
-	fmt.Println(result4)
-	fmt.Println(result5)
-	fmt.Println(result6)
-	fmt.Println(result7)
+	args := os.Args
+	if len(args) < 3 {
+		fmt.Fprintln(os.Stderr, "usage: converter <value> <conversion>")
+		os.Exit(1)
+	}
+	parseArg, err := strconv.ParseFloat(args[1], 64)
+	if err != nil {
+		fmt.Fprintln(os.Stderr, "Cannot convert value to float")
+		os.Exit(1)
+	}
+	var result float64
+	switch args[2] {
+	case "c-f":
+		result = CelsiusToFahrenheit(parseArg)
+		fmt.Printf("CelsiusToFahrenheit(%v) =  %.4f\n", parseArg, result)
+	case "f-c":
+		result = FahrenheitToCelsius(parseArg)
+		fmt.Printf("FahrenheitToCelsius(%v) =  %.4f\n", parseArg, result)
+	case "km-mi":
+		result = KilometersToMiles(parseArg)
+		fmt.Printf("KilometersToMiles(%v) =  %.4f\n", parseArg, result)
+	case "kg-lb":
+		result = KilogramsToPounds(parseArg)
+		fmt.Printf("KilogramsToPounds(%v) =  %.4f\n", parseArg, result)
+	default:
+		fmt.Fprintln(os.Stderr, "unknown conversion")
+		os.Exit(1)
+	}
 }
