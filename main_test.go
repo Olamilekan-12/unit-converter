@@ -74,3 +74,25 @@ func TestKilometersToMiles(t *testing.T) {
 		})
 	}
 }
+
+func TestKilogramsToPounds(t *testing.T) {
+	tests := []struct {
+		name  string
+		input float64
+		want  float64
+	}{
+		{"one_kilogram_to_pounds", 1, 2.20462},
+		{"ten_kilograms_to_pounds", 10, 22.0462},
+		{"zero_kilograms_to_pounds", 0, 0},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			got := KilogramsToPounds(tt.input)
+			if !almostEqual(got, tt.want) {
+				t.Errorf("KilogramsToPounds(%v)=%v, want=%v", tt.input, got, tt.want)
+			}
+		})
+	}
+
+}
